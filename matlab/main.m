@@ -6,3 +6,6 @@ trimap_path = '/home/jiangmi/Documents/S2/CM/dataset/trimap_training_highres/Tri
 rgb = imread(rgb_path);
 trimap = imread(trimap_path);
 [F_rgb, B_rgb, U_rgb] = match_img(rgb, trimap);
+[mean, covariance] = cal_mean_cov(F_rgb);
+% [mean, covariance] = cal_mean_cov(B_rgb);
+% [mean, covariance] = cal_mean_cov(U_rgb);
