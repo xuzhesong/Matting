@@ -1,5 +1,4 @@
 function gradientError = GradientError(Ip, Ir)
-    % 确保输入图像是灰度图
     if size(Ip, 3) == 3
         Ip = rgb2gray(Ip);
     end

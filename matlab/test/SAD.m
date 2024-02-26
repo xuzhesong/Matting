@@ -1,3 +1,3 @@
-function sad = SAD(Ir, Ip)
+function sad = SAD(Ip, Ir)
     sad = sum(abs(Ir - Ip), "all");
 end
