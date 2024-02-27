@@ -4,9 +4,8 @@ close all;
 
 rgb_path = 'GT01[1].png';
 trimap_path = 'GT01_trimap.png';
-
-rgb = im2double(imread(rgb_path));
-trimap = im2double(imread(trimap_path));
+rgb = imread(rgb_path);
+trimap = imread(trimap_path);
 
 alpha = bayesian_matting(rgb, trimap);
 
@@ -14,35 +13,30 @@ alpha = bayesian_matting(rgb, trimap);
 imshow(alpha);
 
 function alpha = bayesian_matting(rgb, trimap)
-    % Convert trimap to alpha matte by assigning 0, 0.5, or 1
-    alpha = trimap;
-    alpha(trimap > 0.95) = 1;  % Foreground
-    alpha(trimap < 0.05) = 0;   % Background
+    % Convert RGB image and trimap to double precision
+    rgb = im2double(rgb);
+    trimap = im2double(trimap);
 
     % Get dimensions
     [rows, cols, ~] = size(rgb);
     
-    % Convert RGB image to vector form
-    rgb_vector = reshape(rgb, [], 3);
-    
-    % Convert trimap to vector form
-    trimap_vector = reshape(trimap, [], 1);
-    
-    % Initialize alpha vector
-    alpha_vector = zeros(rows * cols, 1);
-    
+    % Initialize alpha matte
+    alpha = zeros(rows, cols);
+
     % Iterate over each pixel
-    for i = 1:(rows * cols)
-        % If the pixel is unknown, estimate alpha using Bayesian matting
-        if trimap_vector(i) > 0.05 && trimap_vector(i) < 0.95
-            % Get the RGB values of the pixel
-            pixel_rgb = rgb_vector(i, :);
-            
-            % Calculate alpha using Bayesian matting equation
-            alpha_vector(i) = (pixel_rgb * (pixel_rgb') - pixel_rgb * (pinv(cov(pixel_rgb)) * pixel_rgb') + (1 - pixel_rgb) * (pinv(cov(1 - pixel_rgb)) * (1 - pixel_rgb)')) / 2;
+    for i = 1:rows
+        for j = 1:cols
+            % If the pixel is unknown
+            if trimap(i, j) > 0 && trimap(i, j) < 1
+                % Get the RGB values of the pixel
+                pixel_rgb = reshape(rgb(i, j, :), [], 3);
+                
+                % Calculate alpha using Bayesian matting equation
+                alpha(i, j) = (pixel_rgb * (pixel_rgb') - pixel_rgb * (pinv(cov(pixel_rgb)) * pixel_rgb') + (1 - pixel_rgb) * (pinv(cov(1 - pixel_rgb)) * (1 - pixel_rgb)')) / 2;
+            else
+                % If the pixel is known, copy trimap value
+                alpha(i, j) = trimap(i, j);
+            end
         end
     end
-    
-    % Reshape the alpha vector to the original image size
-    alpha = reshape(alpha_vector, [rows, cols]);
 end
