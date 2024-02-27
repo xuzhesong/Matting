@@ -1,7 +1,6 @@
 
 function alpha = calculate_alpha(rgb, trimap, Var, n)
     
-    [F, B] = match_img(rgb, trimap);
     image = double(rgb);
     Alpha = double(trimap / 255);
     [meanF, meanB, F_cov, B_cov] = match_img(rgb, trimap);
