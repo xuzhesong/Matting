@@ -29,10 +29,12 @@ function alpha = bayesian_matting(rgb, trimap)
             % If the pixel is unknown
             if trimap(i, j) > 0 && trimap(i, j) < 1
                 % Get the RGB values of the pixel
-                pixel_rgb = reshape(rgb(i, j, :), [], 3);
+                F = reshape(rgb(i, j, :), [], 1);
+                B = reshape(rgb(i, j, :), [], 1);
+                C = reshape(rgb(i, j, :), [], 1);
                 
-                % Calculate alpha using Bayesian matting equation
-                alpha(i, j) = (pixel_rgb * (pixel_rgb') - pixel_rgb * (pinv(cov(pixel_rgb)) * pixel_rgb') + (1 - pixel_rgb) * (pinv(cov(1 - pixel_rgb)) * (1 - pixel_rgb)')) / 2;
+                % Calculate alpha using the provided equation
+                alpha(i, j) = dot(C - B, F - B) / norm(F - B)^2;
             else
                 % If the pixel is known, copy trimap value
                 alpha(i, j) = trimap(i, j);
