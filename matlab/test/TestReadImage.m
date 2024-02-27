@@ -25,5 +25,16 @@ classdef TestReadImage < matlab.unittest.TestCase
                 sprintf('Failed for trimap size test: error: %f', mean(trimap - exp_trimap, "all")));
             
         end
+
+        function testReadImageMatch(testCase)
+            trimap = read_img("TestTrimap.png");
+            image = read_img("TestImage.png");
+
+            testCase.verifySize(image(:,:,1), size(trimap), ...
+                sprintf('Failed for image size test: size: %d, expect size: %d', size(image), size(trimap)));
+            testCase.verifySize(trimap, size(image(:,:,1)), ...
+                sprintf('Failed for trimap size test: size: %d, expect size: %d', size(trimap), size(image)));
+            
+        end
     end
 end

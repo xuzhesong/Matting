@@ -1,15 +1,15 @@
-function connectivityError = ConnectivityError(predictedImage, trueImage)
+function connectivityError = ConnectivityError(Ip, Ir)
 
-    if ndims(predictedImage) == 3
-        predictedImage = rgb2gray(predictedImage);
+    if ndims(Ip) == 3
+        Ip = rgb2gray(Ip);
     end
-    if ndims(trueImage) == 3
-        trueImage = rgb2gray(trueImage);
+    if ndims(Ir) == 3
+        Ir = rgb2gray(Ir);
     end
     
     %image binarize
-    predictedBinary = imbinarize(predictedImage);
-    trueBinary = imbinarize(trueImage);
+    predictedBinary = imbinarize(Ip);
+    trueBinary = imbinarize(Ir);
     
     % Calculate connected area
     [labeledPredicted, numPredicted] = bwlabel(predictedBinary);
