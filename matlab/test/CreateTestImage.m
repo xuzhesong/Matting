@@ -49,6 +49,9 @@ function [image, trimap, back, fore, unk] = CreateTestImage(resolution)
     back = uint8((back) .* inputImage*255);
     fore = uint8((known) .* inputImage*255);
     unk = uint8((unknown) .* inputImage*255);
+
+    imwrite(image, 'TestImage.png');
+    imwrite(trimap, 'TestTrimap.png');
     
 end
 
