@@ -1,5 +1,6 @@
 
-classdef TestMatchImage < matlab.unittest.TestCase
+
+classdef testMatchImage < matlab.unittest.TestCase
     methods(Test)
         function testChannel(testCase)
             resolution = [...
@@ -16,7 +17,7 @@ classdef TestMatchImage < matlab.unittest.TestCase
 
                 [inputRGBImage, inputTrimap, backT, foreT, unkT] = CreateTestImage(r);
 
-                [foreground, background, unknown] = match_img(inputRGBImage, inputTrimap);
+                [foreground, background, unknown] = match_img1(inputRGBImage, inputTrimap);
 
                 testCase.verifySize(foreground, size(foreT), ...
                     sprintf('Resolution %dx%d failed for foreground channel test', height, width));
@@ -42,7 +43,7 @@ classdef TestMatchImage < matlab.unittest.TestCase
 
                 [inputRGBImage, inputTrimap, backT, foreT, unkT] = CreateTestImage(r);
 
-                [foreground, background, unknown] = match_img(inputRGBImage, inputTrimap);
+                [foreground, background, unknown] = match_img1(inputRGBImage, inputTrimap);
 
                 mergeImage = foreground + unknown + background;
 

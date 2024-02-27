@@ -2,7 +2,8 @@
 classdef TestAlpha < matlab.unittest.TestCase
     methods(Test)
         function testAlphaSize(testCase)
-            [image, trimap] = CreateTestImage([360 360]);
+            image = imread("GT01_image.png");
+            trimap = imread("GT01_trimap.png");
             alpha = calculate_alpha(image, trimap, 8, 10);
             
             testCase.verifySize(alpha, size(image(:,:,1)), ...
