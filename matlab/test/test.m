@@ -1,7 +1,4 @@
 
-clear;
-close all;
-clc;
 
 %%
 r = runtests("./TestReadImage");
@@ -16,4 +13,6 @@ Ip = double(imread("pre.png")/255);
 I = abs(Ir-Ip);
 sad = SAD(Ip,Ir);
 figure(1);
+imshow(Ir);
+figure(2);
 imshow(I);

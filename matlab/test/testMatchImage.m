@@ -1,5 +1,5 @@
 
-classdef testMatchImage < matlab.unittest.TestCase
+classdef TestMatchImage < matlab.unittest.TestCase
     methods(Test)
         function testChannel(testCase)
             resolution = [...

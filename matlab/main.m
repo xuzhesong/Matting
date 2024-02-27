@@ -1,11 +1,26 @@
 clc;
 clear;
 close all;
-rgb_path = '/home/jiangmi/Documents/S2/CM/dataset/input_training_highres/GT01.png';
-trimap_path = '/home/jiangmi/Documents/S2/CM/dataset/trimap_training_highres/Trimap1/GT01.png';
+
+rgb_path = 'GT01_image.png';
+trimap_path = 'GT01_trimap.png';
 rgb = imread(rgb_path);
 trimap = imread(trimap_path);
-[F_rgb, B_rgb, U_rgb] = match_img(rgb, trimap);
-[mean, covariance] = cal_mean_cov(F_rgb);
-% [mean, covariance] = cal_mean_cov(B_rgb);
-% [mean, covariance] = cal_mean_cov(U_rgb);
+
+alpha = calculate_alpha(rgb, trimap, 8, 3);
+
+% Display the result
+gt = imread("GT01.png");
+figure(1);
+
+subplot(2,2,1);
+imshow(rgb);
+
+subplot(2,2,2);
+imshow(trimap);
+
+subplot(2,2,3);
+imshow(gt);
+
+subplot(2,2,4);
+imshow(alpha);
