@@ -1,5 +1,4 @@
 
-
 classdef testMatchImage < matlab.unittest.TestCase
     methods(Test)
         function testChannel(testCase)
