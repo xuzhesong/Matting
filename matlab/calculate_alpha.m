@@ -1,6 +1,7 @@
 
-function alpha = calculate_alpha(rgb, trimap, Var, n)
-    
+function alpha = calculate_alpha(rgb_path, trimap_path, Var, n)
+    rgb = imread(rgb_path);
+    trimap = imread(trimap_path);
     image = double(rgb);
     Alpha = double(trimap / 255);
     [meanF, meanB, F_cov, B_cov] = match_img(rgb, trimap);
