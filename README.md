@@ -22,7 +22,7 @@ public dataset on http://www.alphamatting.com/
 1. Clone or download the repository to your local machine.
 2. Open MATLAB and navigate to the project directory.
 3. Run the `main.m` of `image_input.mlapp` script, select the input picture and trimap and click the matting button.
-![Logo](./gui.png)
+![Logo](./matlab/gui.png)
 
 ## Main function
 - read_image: read image and trimap from the input path. 
