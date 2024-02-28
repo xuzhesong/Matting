@@ -16,7 +16,6 @@ function [F_mean, B_mean, F_cov, B_cov, F_mask, B_mask, U_mask] = match_img(rgb,
     F_mask = trimap >= F_threshold;
     B_mask = trimap <= B_threshold;
     U_mask = ~F_mask & ~B_mask; % Unknown region is where it's neither F nor B
-    disp(F_mask)
     % Convert logical masks to the same class as rgb for compatibility
     F_mask = uint8(F_mask); % Use uint8 or the appropriate class matching rgb
     B_mask = uint8(B_mask);
@@ -47,7 +46,4 @@ function [F_mean, B_mean, F_cov, B_cov, F_mask, B_mask, U_mask] = match_img(rgb,
     end
     F_cov = F_cov / NF;
     B_cov = B_cov / NB;
-    disp([F_mean, B_mean])
-    disp([F_cov, B_cov])
-    imshow([F_rgb B_rgb U_rgb])
 end
