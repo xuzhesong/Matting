@@ -5,6 +5,5 @@ function sad = SAD(Ip, Ir)
     if ndims(Ir) == 3
         Ir = rgb2gray(Ir);
     end
-    Ir = rgb2gray(Ir);
     sad = sum(abs(Ir - Ip), "all");
 end
