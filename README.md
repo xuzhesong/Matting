@@ -1,8 +1,9 @@
-# Bayesian Matting Project in MATLAB
+# Bayesian Matting in MATLAB
 
 ## Introduction
 
-Bayesian keying is an image processing technique based on Bayes' theorem, which achieves highly accurate foreground object extraction by combining the approximate foreground and background information provided by the user (usually in the form of trimap), and using a probabilistic model to accurately analyse and estimate the colour of each pixel point. This method is particularly suitable for complex scenes with similar foreground and background colours or blurred edges, and can provide excellent keying accuracy and flexibility, which is widely used in image editing, visual effects production and other fields.
+Bayesian keying is an image processing technique based on Bayes' theorem, which achieves highly accurate foreground object extraction by combining the approximate foreground and background information provided by the user (usually in the form of trimap), and using a probabilistic model to accurately analyse and estimate the colour of each pixel point. This method is particularly suitable for complex scenes with similar foreground and background colours or blurred edges, and can provide excellent keying accuracy and flexibility, which is widely used in image editing, visual effects production and other fields. In this project we will implement Bayesian matting in matlab and compare it with Laplacian method.
+
 
 
 ## Installation
@@ -48,8 +49,11 @@ cv2.imwrite('alpha.png', image)
 ```
 After that, mathematical operations can be performed directly on the NumPy arrays used by OpenCV.
 
+## Reference
+http://www.alphamatting.com/datasets.php <br>
+https://sites.math.washington.edu/~morrow/336_14/papers/dylan.pdf <br>
+https://grail.cs.washington.edu/projects/digital-matting/papers/cvpr2001.pdf <br>
 
 
 
-```matlab
 
