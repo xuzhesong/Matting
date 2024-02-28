@@ -10,22 +10,36 @@ trimap = imread(trimap_path);
 tic;
 alpha = calculate_alpha(rgb_path, trimap_path, 8, 30);
 toc;
+alpha = imbinarize(alpha);
 %%
+
+F(:,:,1) = double(alpha) .* double(rgb(:,:,1));
+F(:,:,2) = double(alpha) .* double(rgb(:,:,2));
+F(:,:,3) = double(alpha) .* double(rgb(:,:,3));
+B(:,:,1) = double(1 - alpha) .* double(rgb(:,:,1));
+B(:,:,2) = double(1 - alpha) .* double(rgb(:,:,2));
+B(:,:,3) = double(1 - alpha) .* double(rgb(:,:,3));
 % Display the result
 gt = imread("./test/GT01.png");
 figure(1);
 
-subplot(2,2,1);
+subplot(3,2,1);
 imshow(rgb);
 
-subplot(2,2,2);
+subplot(3,2,2);
 imshow(trimap);
 
-subplot(2,2,3);
+subplot(3,2,3);
 imshow(gt);
 
-subplot(2,2,4);
+subplot(3,2,4);
 imshow(alpha);
+
+subplot(3,2,5);
+imshow(uint8(F));
+
+subplot(3,2,6);
+imshow(uint8(B));
 
 mse = MSE(alpha, double(gt));
 disp(mse);
