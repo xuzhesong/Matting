@@ -1,7 +1,5 @@
-function conn_error = ConnectivityError(alpha, alpha_star)
-    theta = 0.15;
-    p = 1;
-    k = 0.15;
+function conn_error = ConnectivityError(alpha, alpha_star, theta = , p, k)
+    
     % if rgb transform to grey
     alpha = ensureGrayScale(alpha);
     alpha_star = ensureGrayScale(alpha_star);

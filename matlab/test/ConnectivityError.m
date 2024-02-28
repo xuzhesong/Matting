@@ -1,48 +1,65 @@
-function connectivityError = ConnectivityError(Ip, Ir)
+function conn_error = ConnectivityError(alpha, alpha_star)
+    theta = 0.15;
+    p = 1;
+    k = 0.15;
+    % if rgb transform to grey
+    alpha = ensureGrayScale(alpha);
+    alpha_star = ensureGrayScale(alpha_star);
 
-    if ndims(Ip) == 3
-        Ip = rgb2gray(Ip);
-    end
-    if ndims(Ir) == 3
-        Ir = rgb2gray(Ir);
-    end
+    % calculate source domain
+    source_domain = calculate_source_domain(alpha, alpha_star);
+
+    % calculate lambda
+    lambda = calculate_lambda(alpha, source_domain, k);
     
-    %image binarize
-    predictedBinary = imbinarize(Ip);
-    trueBinary = imbinarize(Ir);
+    % calculate phi function
+    phi_alpha = phi(alpha, lambda, theta);
+    phi_alpha_star = phi(alpha_star, lambda, theta);
     
-    % Calculate connected area
-    [labeledPredicted, numPredicted] = bwlabel(predictedBinary);
-    [labeledTrue, numTrue] = bwlabel(trueBinary);
+    % calculate Connectivity Error
+    conn_error = sum(abs(phi_alpha(:) - phi_alpha_star(:)).^p) / numel(alpha);
+
     
-    % initialize
-    errorCount = 0;
-    
-    for i = 1:numTrue
-        trueRegion = (labeledTrue == i);
-        
-        maxIntersectionArea = 0;
-        maxIntersectionIndex = 0;
-        
-        for j = 1:numPredicted
-            predictedRegion = (labeledPredicted == j);
-            intersectionArea = sum(sum(trueRegion & predictedRegion));
-            
-            if intersectionArea > maxIntersectionArea
-                maxIntersectionArea = intersectionArea;
-                maxIntersectionIndex = j;
-            end
+    function img = ensureGrayScale(img)
+        if ndims(img) == 3
+            img = rgb2gray(img);
         end
-        
-        if maxIntersectionIndex > 0
-            predictedRegion = (labeledPredicted == maxIntersectionIndex);
-            unionArea = sum(sum(trueRegion | predictedRegion));
-            
-            errorCount = errorCount + (unionArea - maxIntersectionArea);
+    end
+
+    function phi_values = phi(alpha_values, lambda, theta)
+        Omega = 1; 
+        d_values = abs(alpha_values - Omega); 
+        phi_values = 1 - lambda * (d_values >= theta) .* d_values; 
+    end
+
+    function lambda = calculate_lambda(alpha, source_domain, k)
+    N = numel(alpha); 
+    [rows, cols] = find(source_domain); 
+    source_domain_coords = [rows, cols]; 
+    lambda_sum = 0;
+    
+    parfor i = 1:numel(alpha)
+        [row, col] = ind2sub(size(alpha), i);
+        if source_domain(row, col)
+            continue;
         else
-            errorCount = errorCount + sum(sum(trueRegion));
+            % distances
+            distances = sqrt(sum((source_domain_coords - [row, col]).^2, 2));
+            dist_ij = min(distances);
+            lambda_sum = lambda_sum + dist_ij;
         end
     end
     
-    connectivityError = errorCount / numTrue;
+    lambda = lambda_sum / N; % normalize lambda
+end
+
+
+    function source_domain = calculate_source_domain(alpha_pred, alpha_true)
+        common_area = alpha_pred & alpha_true; % public area
+        CC = bwconncomp(common_area); % find connective area
+        numPixels = cellfun(@numel, CC.PixelIdxList); % number of pixels
+        [~, idx] = max(numPixels); % find maximum connective area
+        source_domain = false(size(alpha_pred)); % initilize connective area
+        source_domain(CC.PixelIdxList{idx}) = true; % set max connective area to source domain
+    end
 end

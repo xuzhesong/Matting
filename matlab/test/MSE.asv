@@ -4,8 +4,8 @@ function mse = MSE(Ip, Ir)
         Ip = rgb2gray(Ip);
     end
     if ndims(Ir) == 3
-        Ir = rgb2gray(Ir);
+        Ir = rgb2gray(alpha_star);
     end
-    Ir = double(rgb2gray(Ir));
+    Ir = rgb2gray(Ir);
     mse = mean((Ir - Ip).^2, "all");
 end
