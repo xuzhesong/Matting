@@ -4,8 +4,10 @@ from PIL import Image
 from numpy.linalg import inv
 from func import match_img
 import tqdm
+import time
 
 def calculate_alpha(rgb_path, trimap_path, Var, n):
+    start_time = time.time()
     # Read RGB and trimap images
     rgb = np.array(Image.open(rgb_path))
     trimap = np.array(Image.open(trimap_path))
@@ -30,6 +32,10 @@ def calculate_alpha(rgb_path, trimap_path, Var, n):
                 alpha = alpha_map[a, b]  # Use precomputed smoothed value
 
                 for i in range(n):  # Iterative refinement loop
+                    if time.time() - start_time > 30:
+                        print("Reached 30 seconds time limit.")
+                        return Alpha
+                    
                     C = image[a, b, :].reshape(3, 1)  # Current pixel color
 
                     # Compute matrices once, reuse them

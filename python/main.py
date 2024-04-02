@@ -29,7 +29,6 @@ for c in range(3):  # Iterate over RGB channels
 
 # Load ground truth alpha matte
 gt = np.array(Image.open("./test/GT08.png"))
-
 [MSE_value, SAD_value, gradient_error_value] = evaluation.evaluation(alpha_bayasion, gt)
 
 header = "| Metric                     | Value   |"
