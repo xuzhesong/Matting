@@ -17,8 +17,10 @@ class TestMatchImg(unittest.TestCase):
 
         
 
-        print("Value of rgb:", rgb)
-        print("Value of trimap:", trimap)
+        print("Value of rgb:")
+        print(rgb)
+        print("Value of trimap:")
+        print(trimap)
         print("F_mean = ", F_mean)
         print("B_mean = ", B_mean)
 
@@ -27,7 +29,7 @@ class TestMatchImg(unittest.TestCase):
         
         self.assertEqual(F_cov.shape, (3, 3))
         self.assertEqual(B_cov.shape, (3, 3))
-        
+        print('test_match_img: passed')
 
 if __name__ == '__main__':
     unittest.main()
