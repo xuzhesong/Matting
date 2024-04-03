@@ -54,7 +54,7 @@ def calculate_alpha(rgb_path, trimap_path, Var, n):
                     iterF = FB[:3]  # Foreground color
                     iterB = FB[3:]  # Background color
                     alpha = np.dot((C - iterB).flatten(), (iterF - iterB).flatten()) / np.linalg.norm(iterF - iterB)**2
-
+                    alpha = max(0, min(alpha, 1))
                 Alpha[a, b] = alpha
 
     return Alpha
